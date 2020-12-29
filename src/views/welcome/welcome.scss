@@ -1,0 +1,22 @@
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
+.charts-text-one,
+.charts-text-two,
+.charts-main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.charts-main {
+  .charts-aside{
+    width: 65%;
+  }
+  .charts-right {
+    width: 35%;
+  }
+}
