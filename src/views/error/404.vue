@@ -16,7 +16,6 @@ export default {
 <style lang="scss" scoped>
 .mainer {
   height: 100vh;
-  // background-color: #000;
   background: url('../../assets/pic/404_2.gif') no-repeat;
   background-size: 100%;
 }
