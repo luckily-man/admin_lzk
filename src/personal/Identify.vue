@@ -97,7 +97,7 @@
          // 干扰线
         // this.drawLine(ctx)
         // 干扰点
-        this.drawDot(ctx)
+        // this.drawDot(ctx)0
       },
       drawText (ctx, txt, i) {
         ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)

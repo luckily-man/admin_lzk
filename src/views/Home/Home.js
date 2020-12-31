@@ -67,6 +67,7 @@ export default {
     // 退出登录
     backLogin() {
       this.$router.push({ path: './'})
+      sessionStorage.removeItem('tag')
     },
     // 主体切换
     changeStyleOne(item) {

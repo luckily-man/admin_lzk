@@ -144,20 +144,28 @@ export default {
     // 登录事件
     handleLogin() {
       // 判断输入账号密码与本地存储是否一致
-      this.adminall = JSON.parse(localStorage.getItem('admin')) 
-      let val = this.adminall.find(item => item.a === this.LoginForm.username && item.b === this.LoginForm.password)
-      if(val) {
+      if (this.LoginForm.yzm === this.identifyCode) {
+        this.adminall = JSON.parse(localStorage.getItem('admin')) 
+        let val = this.adminall.find(item => item.a === this.LoginForm.username && item.b === this.LoginForm.password)
+        if(val) {
+          this.$message({
+            message: '登陆成功',
+            type: 'success'
+          })
+          this.$router.push({path: './home'})
+        }else {
+          this.$message({
+            message: '登陆失败!',
+            type: 'error'
+          })
+        }
+      } else {
         this.$message({
-          message: '登陆成功',
-          type: 'success'
-        })
-        this.$router.push({path: './home'})
-      }else {
-        this.$message({
-          message: '登陆失败!',
+          message: '验证码错误！',
           type: 'error'
         })
       }
+      
       // this.$router.push({path: './home'})
     },
     // 注册事件
