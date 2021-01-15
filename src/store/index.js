@@ -5,6 +5,7 @@ import change from "./module/change.js"
 import username from './module/username'
 import changePic from './module/picture'
 import homeTag from './module/homeTag'
+import token from './module/token'
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     change,
     username,
     changePic,
-    homeTag
+    homeTag,
+    token
   }
 });

@@ -37,7 +37,7 @@ export default {
   }
     return {
       style: {
-        background: "URL('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083673526&di=7a4b805a903c2ebefc880330f6bc1f1d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201803%2F13%2F20180313200341_cxept.jpg')",
+        background: "URL('https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3237597423,2821786676&fm=26&gp=0.jpg')",
       },
       color: 'rgba(19, 206, 102, 0.8)',
       identifyCodes: '1234567890',

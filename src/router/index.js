@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from '../store/index'
 
 Vue.use(VueRouter);
 
@@ -23,7 +24,10 @@ const routes = [
       {
         path: '/welcome',
         name: 'welcome',
-        component: () => import ('../views/welcome/welcome.vue')
+        component: () => import ('../views/welcome/welcome.vue'),
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path: '/table',
@@ -97,5 +101,27 @@ const routes = [
 const router = new VueRouter({
   routes
 });
+
+
+// router.beforeEach((to, from, next) => {
+//   // 获取token
+//   let token = store.state.token
+//   //判断要去的路由有没有requiresAuth
+//   if(to.meta.requireAuth) {
+//     if(token) {
+//       next()
+//     } else {
+//       next({
+//         path: '/login',
+//         query: {
+//           redirect: to.fullPath
+//         }
+//       })
+//     }
+//   }else {
+//     next()
+//   }
+
+// })
 
 export default router;
