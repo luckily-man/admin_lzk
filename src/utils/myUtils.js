@@ -33,3 +33,12 @@ export function pwdLength(value) {
   }
   return charLength;
 }
+
+export function checkEmail(value) {
+    if(regExpConfig.emailRegex.test(value)) {
+        return 1
+    } else {
+        return 0
+    }
+    
+}

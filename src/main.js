@@ -26,7 +26,8 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 // 请求基准路径的配置
-axios.defaults.baseURL = 'http://127.0.0.1:8888/api/'
+
+axios.defaults.baseURL = 'http://localhost:3000/api/'
 // 将axios挂载到vue原型上
 // 在别的组件中this.$http
 Vue.prototype.$http = axios
@@ -42,6 +43,7 @@ Vue.use(SlideVerify)
 Vue.use(animated)
 Vue.use(VueCropper)
 Vue.use(VueQuillEditor)
+// Vue.use(axios)
 
 const i18n = new VueI18n({
   locale: 'zh-CN', // 语言标识

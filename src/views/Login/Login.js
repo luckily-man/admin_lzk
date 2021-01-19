@@ -1,5 +1,6 @@
-import { pwdLength, checkStrong } from '../../utils/myUtils.js'
+import { pwdLength, checkStrong, checkEmail } from '../../utils/myUtils.js'
 import Identify from '../../personal/Identify'
+// import axios from 'axios'
 export default {
   components: { Identify },
   data() {
@@ -8,6 +9,15 @@ export default {
         callback(new Error('请输入验证码'))
       } else if (value !== this.identifyCode) {
         callback(new Error('验证码错误'))
+      } else {
+        callback()
+      }
+    }
+    let validateEmail = (rule, value, callback) => {
+      if(value === '') {
+        callback(new Error('请输入邮箱'))
+      } else if (checkEmail(value) !== 1){
+        callback(new Error('邮箱不符合要求'))
       } else {
         callback()
       }
@@ -32,7 +42,7 @@ export default {
       }else if (checkStrong(value) == 1) {
         callback(new Error('密码不符合要求')) 
       }else {
-          callback();
+        callback();
       }
   }
     return {
@@ -52,6 +62,7 @@ export default {
       // 注册表单
       RegisterForm: {
         editUsername: '',
+        editEmail: '',
         editPassword: '',
         confirmPassword: ''
       },
@@ -76,7 +87,10 @@ export default {
       RegisterRules: {
         editUsername: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 3, max: 10, message: '用户名长度在3~10个字符之间', trigger: 'blur'}
+          {min: 1, max: 30, message: '用户名长度在1~30个字符之间', trigger: 'blur'}
+        ],
+        editEmail: [
+          {required: true, validator: validateEmail, trigger: 'blur'}
         ],
         editPassword: [
           {required: true, validator: validatePassword, trigger: 'blur'}
@@ -126,22 +140,14 @@ export default {
           this.midBgColor = '#dcdcdc';
           this.highBgColor = '#dcdcdc';
       }
-      
     }
   },
   mounted() {
-    // if (this.loginForm.username === '') {
-    //     this.$refs.username.focus()
-    // } else if (this.loginForm.password === '') {
-    //     this.$refs.password.focus()
-    // }
-
     this.identifyCode = ''
     this.makeCode(this.identifyCodes, 4)
-    
   },
   methods: {
-    // 登录事件
+    // 点击登录按钮登录事件
     handleLogin() {
       // 判断输入账号密码与本地存储是否一致
       if (this.LoginForm.yzm === this.identifyCode) {
@@ -168,12 +174,12 @@ export default {
       
       // this.$router.push({path: './home'})
     },
-    // 注册事件
+    // 注册按钮事件
     handleRegisterIn() {
       this.flag = !this.flag
       this.style.background = "URL('" + require('../../assets/media/timg.jpg') + "')"
     },
-    // 注册取消事件
+    // 注册取消按钮事件
     handleRegisterCancel(formName) {
       this.flag = true
       this.$refs[formName].resetFields()
@@ -183,33 +189,51 @@ export default {
       // console.log('回车事件');
       this.handleRegisterOut('RegisterForm')
     },
-    // 注册提交事件
+    // 注册提交按钮事件
     handleRegisterOut(formName) {
-      this.$refs[formName].validate((valid) => {
-        if(valid) {
-          let localeData = JSON.parse(localStorage.getItem('admin'))||[]
-          let val = localeData.find(item => item.a === this.RegisterForm.editUsername && item.b === this.RegisterForm.editPassword) || null
-          if(val) {
-            this.$message({
-              message: '该用户已存在！',
-              type: 'error'
-            })
-          }else {
-            this.saveLocalstorage()
-            this.$message({
-              message: '注册成功！',
-              type: 'success'
-            })
-            this.handleRegisterCancel(formName)
-          }
-        } else {
-          this.$message({
-            message: '请输入正确的信息',
-            type: 'error'
-          })
-          return false
+      this.$refs[formName].validate(async(valid) => {
+        if (!valid) return
+        let user = {
+          name: this.RegisterForm.editUsername,
+          email: this.RegisterForm.editEmail,
+          password: this.RegisterForm.editPassword,
+          password2: this.RegisterForm.confirmPassword
         }
+        const { data: res } = await this.$http.post('users/register', user)
+        console.log(res);
+        if(res.status !== 200) {
+          this.$message.error(res.msg)
+        } else {
+          this.$message.success('注册成功')
+          this.handleRegisterCancel(formName)
+        }        
       })
+
+      // this.$refs[formName].validate((valid) => {
+      //   if(valid) {
+      //     let localeData = JSON.parse(localStorage.getItem('admin'))||[]
+      //     let val = localeData.find(item => item.a === this.RegisterForm.editUsername && item.b === this.RegisterForm.editPassword) || null
+      //     if(val) {
+      //       this.$message({
+      //         message: '该用户已存在！',
+      //         type: 'error'
+      //       })
+      //     }else {
+      //       this.saveLocalstorage()
+      //       this.$message({
+      //         message: '注册成功！',
+      //         type: 'success'
+      //       })
+      //       this.handleRegisterCancel(formName)
+      //     }
+      //   } else {
+      //     this.$message({
+      //       message: '请输入正确的信息',
+      //       type: 'error'
+      //     })
+      //     return false
+      //   }
+      // })
     },
     // 将注册用户信息存在本地
     saveLocalstorage() {

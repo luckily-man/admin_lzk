@@ -57,7 +57,7 @@
       <!-- 注册页面 -->
       <el-button type="primary" class="btn_register" @click.native.prevent="handleRegisterIn">注册</el-button>
     </el-form>
-    <!-- 点击注册后显示表单 -->
+    <!-- 注册表单 -->
     <el-form v-show="!flag" ref="RegisterForm" :model="RegisterForm" label-position="left" class="register_form" :rules="RegisterRules">
       <!-- username -->
       <el-form-item label="用户名" prop="editUsername"  class="register_username w-400">
@@ -66,6 +66,20 @@
         v-model="RegisterForm.editUsername"
         placeholder="username"
         name="username"
+        type="text"
+        autocomplete="on"
+        tableindex="1"
+        prefix-icon="el-icon-user-solid"
+        >
+        </el-input>
+      </el-form-item>
+      <!-- email -->
+      <el-form-item label="邮箱" prop="editEmail"  class="register_username w-400">
+        <el-input
+        ref="editEmail"
+        v-model="RegisterForm.editEmail"
+        placeholder="email"
+        name="editEmail"
         type="text"
         autocomplete="on"
         tableindex="1"
