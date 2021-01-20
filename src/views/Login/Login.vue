@@ -9,7 +9,7 @@
     <!-- 色彩选择框 -->
     <el-color-picker v-model="color" show-alpha @change="changeColor" v-show="flag"></el-color-picker>
     <!-- 登录表单 -->
-    <el-form v-show="flag" ref="LoginFormRef" :model="LoginForm" label-position="left" class="login_form" :rules="loginRules">
+    <el-form v-show="flag" ref="LoginForm" :model="LoginForm" label-position="left" class="login_form" :rules="loginRules">
       <!-- username -->
       <el-form-item label="username" prop="username">
         <el-input
@@ -17,6 +17,19 @@
         v-model="LoginForm.username"
         placeholder="username"
         name="username"
+        type="text"
+        autocomplete="on"
+        tableindex="1"
+        >
+        </el-input>
+      </el-form-item>
+      <!-- email -->
+      <el-form-item label="email" prop="email">
+        <el-input
+        ref="email"
+        v-model="LoginForm.email"
+        placeholder="email"
+        name="email"
         type="text"
         autocomplete="on"
         tableindex="1"
@@ -51,9 +64,8 @@
           <Identify :identifyCode="identifyCode"></Identify>
         </div>
       </el-form-item>       
-
       <!-- 登录按钮 -->
-      <el-button type="primary" :loading="loading" class="btn_login" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button type="primary" :loading="loading" class="btn_login" @click.native.prevent="handleLogin('LoginForm')">登录</el-button>
       <!-- 注册页面 -->
       <el-button type="primary" class="btn_register" @click.native.prevent="handleRegisterIn">注册</el-button>
     </el-form>
@@ -83,7 +95,7 @@
         type="text"
         autocomplete="on"
         tableindex="1"
-        prefix-icon="el-icon-user-solid"
+        prefix-icon="el-icon-message"
         >
         </el-input>
       </el-form-item>

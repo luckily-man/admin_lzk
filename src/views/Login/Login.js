@@ -54,8 +54,9 @@ export default {
       identifyCode: '',
       // 登录表单
       LoginForm: {
-        username: 'admin',
-        password: '123456.',
+        username: '刘中坤',
+        email: '1203687356@qq.com',
+        password: 'liu0127.',
         yzm: ''
         
       },
@@ -78,6 +79,9 @@ export default {
         password: [
           {required: true, message: '请输入密码', trigger: 'blur'},
           {min: 6, max: 15, message: '用户密码在6~15个字符之间', trigger: 'blur'}
+        ],
+        email: [
+          {required: true, validator: validateEmail, trigger: 'blur'}
         ],
         yzm: [
           {required: true, validator: validateYZM, trigger: 'blur'}
@@ -148,31 +152,47 @@ export default {
   },
   methods: {
     // 点击登录按钮登录事件
-    handleLogin() {
-      // 判断输入账号密码与本地存储是否一致
-      if (this.LoginForm.yzm === this.identifyCode) {
-        this.adminall = JSON.parse(localStorage.getItem('admin')) 
-        let val = this.adminall.find(item => item.a === this.LoginForm.username && item.b === this.LoginForm.password)
-        if(val) {
-          this.$message({
-            message: '登陆成功',
-            type: 'success'
-          })
-          this.$router.push({path: './home'})
-        }else {
-          this.$message({
-            message: '登陆失败!',
-            type: 'error'
-          })
+    handleLogin(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        if (!valid) return
+        let user = {
+          email: this.LoginForm.email,
+          password: this.LoginForm.password
         }
-      } else {
-        this.$message({
-          message: '验证码错误！',
-          type: 'error'
-        })
-      }
-      
-      // this.$router.push({path: './home'})
+        const { data: res } = await this.$http.post('users/login', user)
+        console.log(res);
+        if(res.status === 404) {
+          this.$message.error('用户邮箱未注册！')
+        } else if(res.status === 400) {
+          this.$message.error(res.msg)
+        } else {
+          this.$message.success('登陆成功')
+          window.sessionStorage.setItem('token', res.token)
+          this.$router.push({path: './home'})
+        }
+      })
+      // 判断输入账号密码与本地存储是否一致
+      // if (this.LoginForm.yzm === this.identifyCode) {
+      //   this.adminall = JSON.parse(localStorage.getItem('admin')) 
+      //   let val = this.adminall.find(item => item.a === this.LoginForm.username && item.b === this.LoginForm.password)
+      //   if(val) {
+      //     this.$message({
+      //       message: '登陆成功',
+      //       type: 'success'
+      //     })
+      //     this.$router.push({path: './home'})
+      //   }else {
+      //     this.$message({
+      //       message: '登陆失败!',
+      //       type: 'error'
+      //     })
+      //   }
+      // } else {
+      //   this.$message({
+      //     message: '验证码错误！',
+      //     type: 'error'
+      //   })
+      // }
     },
     // 注册按钮事件
     handleRegisterIn() {

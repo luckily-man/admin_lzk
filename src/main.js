@@ -32,6 +32,15 @@ axios.defaults.baseURL = 'http://localhost:3000/api/'
 // 在别的组件中this.$http
 Vue.prototype.$http = axios
 
+// interceptors -> axios 请求拦截，给所有接口的headers添加token（登录除外）
+axios.interceptors.request.use(config => {
+  // console.log(config);
+  const token = sessionStorage.getItem('token')
+  config.headers.Authorization = token
+  return config;
+})
+
+
 Vue.prototype.$echarts = echarts
 
 Vue.component('vue-custom-scrollbar', vueCustomScrollbar)

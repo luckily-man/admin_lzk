@@ -1,0 +1,47 @@
+.mainer {
+  height: calc(100vh - 100px);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  .left {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .left_div {
+      transform: translatey(-50%);
+      margin: 10px auto;
+      .avatar {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        margin: 0 auto;
+        img {
+          height: 100%;
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+      .p_name,
+      .p_email,
+      .unpdata_p{
+        text-align: center;
+      }
+      .unpdata_p {
+        margin-top:20px ;
+        span {
+          background-color: #fff;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .right {
+    width: 70%;
+    border: 1px solid #ccc;
+    .el-tag {
+      margin-right: 10px;
+    }
+  }
+}
+

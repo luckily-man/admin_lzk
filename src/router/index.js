@@ -88,6 +88,11 @@ const routes = [
         path: '/error',
         name: 'error',
         component: () => import ('../views/error/404.vue')
+      },
+      {
+        path: '/edit',
+        name: 'edit',
+        component: () => import ('../views/edit/edit.vue')
       }
     ]
   },
@@ -102,26 +107,19 @@ const router = new VueRouter({
   routes
 });
 
+// 挂载导航守卫
+router.beforeEach((to, from, next) => {
+  // to 将要访问的路径
+  // from 代表从哪个路径跳转而来
+  // next 是一个函数 ，表示放行
+  // next() 放行 next('/login') 强制跳转
+  if (to.path === '/login') return next()
+  // 获取token
+  const tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/login')
+  next()
+})
 
-// router.beforeEach((to, from, next) => {
-//   // 获取token
-//   let token = store.state.token
-//   //判断要去的路由有没有requiresAuth
-//   if(to.meta.requireAuth) {
-//     if(token) {
-//       next()
-//     } else {
-//       next({
-//         path: '/login',
-//         query: {
-//           redirect: to.fullPath
-//         }
-//       })
-//     }
-//   }else {
-//     next()
-//   }
 
-// })
 
 export default router;
