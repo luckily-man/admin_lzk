@@ -7,7 +7,12 @@ export default {
       pAllMsg: [],
       flag: true,
       social: [],
+      education: [],
+      experience: [],
       dialogVisible: false,
+      dialogVisibleEdu: false,
+      dialogVisibleExp: false,
+      activeName: 'first',
       form: {
         handle: '',
         location: '',
@@ -21,6 +26,22 @@ export default {
         tengxunkt: '',
         githubusername: '',
         wangyikt: ''
+      },
+      eduForm: {
+        school: '',
+        degree: '',
+        fieldofstudy: '',
+        from: '',
+        to: '',
+        description: ''
+      },
+      expForm: {
+        title: '',
+        company: '',
+        location: '',
+        from: '',
+        to: '',
+        description: ''
       },
       formRules:{
         handle: [
@@ -42,6 +63,28 @@ export default {
         wangyikt: [
           {required: true, message: '请输入内容哦', trigger: 'blur'}
         ]
+      },
+      eduFormRules: {
+        school: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ],
+        degree: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ],
+        from: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ]
+      },
+      expFormRules: {
+        title: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ],
+        company: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ],
+        from: [
+          {required: true, message: '请输入内容哦', trigger: 'blur'}
+        ]
       }
     }
   },
@@ -53,7 +96,6 @@ export default {
     // 获取个人信息
     async getMsg() {
       const {data: res} = await this.$http.get('users/current')
-      // console.log(res);
       this.background = res.avatar
       this.pName = res.name
       this.pEmail = res.email
@@ -69,7 +111,8 @@ export default {
         this.flag = true
         this.pAllMsg = res[0]
         this.social = res[0].social
-        // console.log(this.pAllMsg);
+        this.education = res[0].education
+        this.experience = res[0].experience
       }
     },
     // 对话框取消事件
@@ -82,10 +125,12 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if(!valid) return
         const {data: res} = await this.$http.post('profile', this.form)
-        console.log(res);
+        // console.log(res);
         this.pAllMsg = res
         this.social = res.social
         this.dialogVisible = false
+        this.$refs[formName].resetFields()
+        this.$message.success('添加成功')
       })
     },
     // 对话框关闭事件
@@ -93,13 +138,91 @@ export default {
       this.$confirm('确认关闭？')
         .then(_ => {
           done()
-          // console.log(111);
-          // this.dialogCancel()
-          // this.dialogVisible = false
+          this.$refs.form.resetFields()
         })
         .catch(_ => {
-          console.log(222);
         });
+    },
+    // 编辑教育经历按钮
+    editEdu() {
+      this.dialogVisibleEdu = true
+    },
+    // 添加教育经历模态框取消事件
+    dialogCancelEdu(formName) {
+      this.dialogVisibleEdu = false
+      this.$refs[formName].resetFields()
+    },
+    // 添加教育经历模态框确定事件
+    dialogTrueEdu(formName) {
+      // this.dialogVisibleEdu = false
+      this.$refs[formName].validate(async(valid) => {
+        if(!valid) return
+        const {data: res} = await this.$http.post('profile/education', this.eduForm)
+        // console.log(res[0].education);
+        this.education = res[0].education
+        this.dialogVisibleEdu = false
+        this.$refs[formName].resetFields()
+        this.$message.success('添加成功')
+      })
+    },
+    
+    // 添加教育经历模态框关闭事件
+    handleCloseEdu(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+          this.$refs.eduForm.resetFields()
+        })
+        .catch(_ => {
+        });
+    },
+    // 添加工作经验按钮事件
+    editExp() {
+      this.dialogVisibleExp = true
+    },
+    // 添加工作经历模态框取消事件
+    dialogCancelExp(formName) {
+      this.dialogVisibleExp = false
+      this.$refs[formName].resetFields()
+    },
+    // 添加工作经历模态框确定事件
+    dialogTrueExp(formName) {
+      this.$refs[formName].validate(async(valid) => {
+        if(!valid) return
+        const {data: res} = await this.$http.post('profile/experience', this.expForm)
+        // console.log(res[0].experience);
+        this.experience = res[0].experience
+        this.dialogVisibleExp = false
+        this.$refs[formName].resetFields()
+        this.$message.success('添加成功')
+      })
+    },
+    // 添加工作经历模态框关闭事件
+    handleCloseExp(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+          this.$refs.expForm.resetFields()
+        })
+        .catch(_ => {
+        });
+    },
+    handleClick(tab, event) {
+      // console.log(tab, event);
+    },
+    // 删除教育经历按钮事件
+    async delEdu(val) {
+      const {data: res} = await this.$http.delete('profile/education', {edu_id: val._id})
+      this.education = res.education
+      this.$message.success('删除成功')
+    },
+    // 删除工作经历
+    async delEep(val) {
+      // console.log(val);
+      const {data: res} = await this.$http.delete('profile/experience', {exp_id: val._id})
+      // console.log(res);
+      this.experience = res.experience
+      this.$message.success('删除成功')
     }
   }
 }

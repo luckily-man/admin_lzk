@@ -38,10 +38,17 @@
   }
   .right {
     width: 70%;
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     .el-tag {
       margin-right: 10px;
     }
   }
 }
-
+.edu {
+  display: flex;
+  justify-content: space-between;
+}
+.edu_btn {
+  display: flex;
+  justify-content: space-between;
+}
