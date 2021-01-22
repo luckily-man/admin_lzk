@@ -5,13 +5,13 @@ export default {
   data() {
     
     return {
+      background:'',
       collapse: '',
       flag: false,
       // 设置
       theme: [
         { id: 1, title: "设置", path: '/edit'},
-        { id: 2, title: "主题二"},
-        { id: 3, title: "主题三"}
+        { id: 2, title: "登出", path: './'}
       ],
       // 导航栏
       asideMenu: [
@@ -53,9 +53,10 @@ export default {
     }
   }, 
   mounted() {
+    this.background = sessionStorage.getItem('avatar')
     this.tag = JSON.parse(sessionStorage.getItem('tag')) ? JSON.parse(sessionStorage.getItem('tag')) : this.tag
     this.scrollHanle()
-    console.log(this.$router.path);
+    // console.log(this.$router.path);
   },
   computed:mapState ({
     isCollapse: state=> state.change.isCollapse,
@@ -65,6 +66,7 @@ export default {
   }),
   methods: {
     ...mapActions(['changeCollapse', 'selectMenu', 'addTag']),
+    // 获取头像
     // 退出登录
     backLogin() {
       this.$router.push({ path: './'})
@@ -74,19 +76,12 @@ export default {
     },
     // 设置按钮点击事件
     changeStyleOne(item) {
-      // console.log(item.id);
-      // console.log(item.title);
       if(item.id === 1) {
         this.$router.push(item.path)
+      }else {
+        this.backLogin()
       }
-      // if(item.id == 1) {
-      //   this.style.background = "rgb(233,238,243)"
-      //   console.log(this.style.background);
-      // }else if (item.id == 2) {
-      //   this.style.background = "URL(" + "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083673526&di=7a4b805a903c2ebefc880330f6bc1f1d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201803%2F13%2F20180313200341_cxept.jpg" + ")"
-      // } else {
-      //   this.style.background = 'rgb(232,235,239)'
-      // }
+      
     },
     // 展开事件
     derail() {

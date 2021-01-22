@@ -1,10 +1,13 @@
 .mainer {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 140px);
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  background-color: #fff;
   .left {
-    width: 30%;
+    position: absolute;
+    left: 0;
+    height: calc(100vh - 140px);
+    width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +23,7 @@
           height: 100%;
           width: 100%;
           border-radius: 50%;
+          cursor: pointer;
         }
       }
       .p_name,
@@ -27,21 +31,17 @@
       .unpdata_p{
         text-align: center;
       }
-      .unpdata_p {
-        margin-top:20px ;
-        span {
-          background-color: #fff;
-          cursor: pointer;
-        }
-      }
     }
   }
   .right {
-    width: 70%;
-    // border: 1px solid #ccc;
-    .el-tag {
-      margin-right: 10px;
-    }
+    width: 75%;
+    height: 100%;
+    position: absolute;
+    left: 25%;
+    // right: 0;
+    // overflow: scroll;
+    padding: 10px 0 0 10px;
+    
   }
 }
 .edu {
@@ -51,4 +51,7 @@
 .edu_btn {
   display: flex;
   justify-content: space-between;
+}
+.el-tag {
+  margin: 10px;
 }

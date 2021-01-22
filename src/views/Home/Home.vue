@@ -3,24 +3,22 @@
     <el-container class="container_el">
       <!-- 头部区域 -->
         <el-header style="text-align: right; font-size: 12px;">
-          <!-- 左侧设置按钮 -->
-          <div class="header-edit">
-            <el-dropdown style="cursor:pointer">
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(item, id) in theme">
-                <div class="" @click="changeStyleOne(item)">{{item.title}}</div>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span>设置</span>
-          </div>
-          <!-- 右侧退出登录按钮 -->
-          <div class="header_right">
+          <!-- 右侧设置按钮 -->
+            <div class="edit_btn">
+               <span>设置</span>
+              <el-dropdown style="cursor:pointer">
+              <i class="el-icon-setting" style="margin-left: 15px"></i>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="(item, id) in theme">
+                  <div class="" @click="changeStyleOne(item)">{{item.title}}</div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            </div>
             <!-- 头像框 -->
-            <div class="avatar"></div>
-            <div @click="backLogin" class="cp">退出登录</div>
-          </div>
+            <div class="avatar">
+              <img :src="background" alt="">
+            </div>
         </el-header>
       <el-container>
         <!-- 左侧导航滚动条 -->
@@ -62,13 +60,6 @@
                 @click="changeMenu(item)">
                 {{ item.title }}
               </el-tag>
-            </div>
-            <div class="breadCrumb">
-              <!-- 面包屑导航 -->
-              <el-breadcrumb separator=":" style="margin-bottom: 10px; margin-left: 3px">
-                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item :to="current.path" v-if="current">{{current.title}}</el-breadcrumb-item>
-              </el-breadcrumb>
             </div>
             <router-view></router-view>
           </el-main>

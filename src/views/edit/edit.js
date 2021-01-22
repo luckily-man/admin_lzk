@@ -13,6 +13,13 @@ export default {
       dialogVisibleEdu: false,
       dialogVisibleExp: false,
       activeName: 'first',
+      tabPosition: 'left',
+      expTitle: '',
+      eduTitle: '',
+      expFlag: true,
+      eduFlag: true,
+      exp_id: '',
+      edu_id: '',
       form: {
         handle: '',
         location: '',
@@ -99,11 +106,11 @@ export default {
       this.background = res.avatar
       this.pName = res.name
       this.pEmail = res.email
+      sessionStorage.setItem('avatar', res.avatar)
     },
     // 获取具体信息
     async getAllMsg() {
       const {data: res} = await this.$http.get('profile')
-      // console.log(res);
       if(res.status === 404) {
         this.$message.error('该用户尚未填写个人信息')
         this.flag = false
@@ -144,7 +151,16 @@ export default {
         });
     },
     // 编辑教育经历按钮
-    editEdu() {
+    editEdu(val) {
+      if(val === 1) {
+        this.eduTitle = '添加教育经历'
+        this.eduFlag = true
+      } else {
+        this.eduTitle = '编辑教育经历'
+        console.log(val);
+        this.eduFlag = false
+        this.edu_id = val._id
+      }
       this.dialogVisibleEdu = true
     },
     // 添加教育经历模态框取消事件
@@ -154,15 +170,21 @@ export default {
     },
     // 添加教育经历模态框确定事件
     dialogTrueEdu(formName) {
-      // this.dialogVisibleEdu = false
       this.$refs[formName].validate(async(valid) => {
         if(!valid) return
-        const {data: res} = await this.$http.post('profile/education', this.eduForm)
-        // console.log(res[0].education);
-        this.education = res[0].education
-        this.dialogVisibleEdu = false
-        this.$refs[formName].resetFields()
-        this.$message.success('添加成功')
+        if(this.eduFlag === true) {
+          const {data: res} = await this.$http.post('profile/education', this.eduForm)
+          this.education = res[0].education
+          this.dialogVisibleEdu = false
+          this.$refs[formName].resetFields()
+          this.$message.success('添加成功')
+        } else {
+          const {data: res} = await this.$http.put(`profile/eduOne?edu_id=${this.edu_id}`, this.eduForm)
+          this.education = res.education
+          this.$message.success('修改成功')
+          this.dialogVisibleEdu = false
+          this.$refs[formName].resetFields()
+        }
       })
     },
     
@@ -177,7 +199,16 @@ export default {
         });
     },
     // 添加工作经验按钮事件
-    editExp() {
+    editExp(index) {
+      if(index === 1) {
+        this.expTitle = '添加工作经历'
+        this.expFlag = true
+      } else {
+        this.expTitle = '编辑工作经历'
+        this.expFlag = false
+        // console.log(index);
+        this.exp_id = index._id
+      }
       this.dialogVisibleExp = true
     },
     // 添加工作经历模态框取消事件
@@ -185,19 +216,27 @@ export default {
       this.dialogVisibleExp = false
       this.$refs[formName].resetFields()
     },
-    // 添加工作经历模态框确定事件
+    // 工作经历模态框确定事件
     dialogTrueExp(formName) {
       this.$refs[formName].validate(async(valid) => {
         if(!valid) return
-        const {data: res} = await this.$http.post('profile/experience', this.expForm)
-        // console.log(res[0].experience);
-        this.experience = res[0].experience
-        this.dialogVisibleExp = false
-        this.$refs[formName].resetFields()
-        this.$message.success('添加成功')
+        if(this.expFlag === true) {
+          const {data: res} = await this.$http.post('profile/experience', this.expForm)
+          this.experience = res[0].experience
+          this.dialogVisibleExp = false
+          this.$refs[formName].resetFields()
+          this.$message.success('添加成功')
+        } else {
+          const {data: res} = await this.$http.put(`profile/expOne?exp_id=${this.exp_id}`, this.expForm)
+          this.experience = res.experience
+          this.$message.success('修改成功')
+          this.dialogVisibleExp = false
+          this.$refs[formName].resetFields()
+        }
+        
       })
     },
-    // 添加工作经历模态框关闭事件
+    // 工作经历模态框关闭事件
     handleCloseExp(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -208,19 +247,16 @@ export default {
         });
     },
     handleClick(tab, event) {
-      // console.log(tab, event);
     },
     // 删除教育经历按钮事件
     async delEdu(val) {
-      const {data: res} = await this.$http.delete('profile/education', {edu_id: val._id})
+      const {data: res} = await this.$http.delete(`profile/education?edu_id=${val._id}`)
       this.education = res.education
       this.$message.success('删除成功')
     },
     // 删除工作经历
     async delEep(val) {
-      // console.log(val);
-      const {data: res} = await this.$http.delete('profile/experience', {exp_id: val._id})
-      // console.log(res);
+      const {data: res} = await this.$http.delete(`profile/experience?exp_id=${val._id}`)
       this.experience = res.experience
       this.$message.success('删除成功')
     }
