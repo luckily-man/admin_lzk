@@ -93,6 +93,11 @@ const routes = [
         path: '/edit',
         name: 'edit',
         component: () => import ('../views/edit/edit.vue')
+      },
+      {
+        path: '/userlist',
+        name: 'userlist',
+        component: () => import ('../views/userlist/userlist.vue')
       }
     ]
   },

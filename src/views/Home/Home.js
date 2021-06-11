@@ -17,9 +17,9 @@ export default {
       asideMenu: [
         { path: '/v1',
           icon: 'el-icon-message',
-          title: '导航一',
+          title: '学生管理',
           children: [
-            { path: '/tab', icon: 'el-icon-tickets', title: '表格模拟后台'},
+            { path: '/tab', icon: 'el-icon-tickets', title: '学生管理'},
             { path: '/table', icon: 'el-icon-tickets', title: '本地表格'},
             { path: '/Charts', icon: 'el-icon-s-data', title: '图表练习'},
             { path: '/changeCharts', icon: 'el-icon-data-line', title: '图表切换'}
@@ -42,7 +42,8 @@ export default {
             { path: '/practice', icon: 'el-icon-finished', title: '富文本编辑器'},
             { path: '/notebook', icon: 'el-icon-notebook-1', title: '记事本'},
             { path: '/enjoy', icon: 'el-icon-more', title: '小练习'},
-            { path: '/error', icon: 'el-icon-magic-stick', title: '404',}
+            { path: '/error', icon: 'el-icon-magic-stick', title: '404'},
+            { path: '/userlist', icon: 'el-icon-document', title: '用户管理'}
           ]
         }
       ],
@@ -53,20 +54,21 @@ export default {
     }
   }, 
   mounted() {
-    this.background = sessionStorage.getItem('avatar')
+    this.getMsg()
     this.tag = JSON.parse(sessionStorage.getItem('tag')) ? JSON.parse(sessionStorage.getItem('tag')) : this.tag
     this.scrollHanle()
-    // console.log(this.$router.path);
   },
   computed:mapState ({
     isCollapse: state=> state.change.isCollapse,
     current: state => state.homeTag.currentMenu,
-    // tag: state => state.homeTag.localMeun
-
   }),
   methods: {
     ...mapActions(['changeCollapse', 'selectMenu', 'addTag']),
     // 获取头像
+    async getMsg() {
+      const {data: res} = await this.$http.get('users/current')
+      this.background = res.avatar
+    },
     // 退出登录
     backLogin() {
       this.$router.push({ path: './'})

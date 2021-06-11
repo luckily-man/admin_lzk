@@ -22,6 +22,7 @@
           @selectAllData="selectAllData"
           @selectSinger="selectSinger">
       </ux-table>
+      <!--<div>这是一条弹出框</div>-->
     <ux-dialog
       :dialog_title="dialog_title"
       :dialog_visible="dialog_visible"
@@ -29,7 +30,7 @@
       @handleClose="handleClose"
       @submit="submit"
       >
-      <!--<div>这是一条弹出框</div>-->
+      
 
       <!-- //可以插入文本//插入表单示例 -->
       <el-form ref="demo-form" :model="formData" label-width="80px">

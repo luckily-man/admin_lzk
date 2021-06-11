@@ -106,7 +106,6 @@ export default {
       this.background = res.avatar
       this.pName = res.name
       this.pEmail = res.email
-      sessionStorage.setItem('avatar', res.avatar)
     },
     // 获取具体信息
     async getAllMsg() {

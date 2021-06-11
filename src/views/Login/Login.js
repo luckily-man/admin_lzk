@@ -104,9 +104,9 @@ export default {
         ]
       },
       backgroundImages: [
-        {id: 1, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083673526&di=7a4b805a903c2ebefc880330f6bc1f1d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201803%2F13%2F20180313200341_cxept.jpg'},
-        {id: 2, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083148351&di=edb0ef50d70fb6402f87f2a22e0ebc1d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201311%2F01%2F215828tpmddz2d2bfcz5pk.jpg'},
-        {id: 3, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607086548327&di=fd136531af856bdde29cef5dbf2e3527&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F95eef01f3a292df56eda9005bc315c6034a87380.jpg'},
+        // {id: 1, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083673526&di=7a4b805a903c2ebefc880330f6bc1f1d&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201803%2F13%2F20180313200341_cxept.jpg'},
+        // {id: 2, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607083148351&di=edb0ef50d70fb6402f87f2a22e0ebc1d&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201311%2F01%2F215828tpmddz2d2bfcz5pk.jpg'},
+        // {id: 3, src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1607086548327&di=fd136531af856bdde29cef5dbf2e3527&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F95eef01f3a292df56eda9005bc315c6034a87380.jpg'},
         {id: 4, src: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3338231848,1089252417&fm=26&gp=0.jpg'},
         {id: 5, src: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3237597423,2821786676&fm=26&gp=0.jpg'}
       ],
@@ -155,6 +155,8 @@ export default {
     handleLogin(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (!valid) return
+
+        
         let user = {
           email: this.LoginForm.email,
           password: this.LoginForm.password
@@ -171,6 +173,8 @@ export default {
           this.$router.push({path: './home'})
         }
       })
+
+
       // 判断输入账号密码与本地存储是否一致
       // if (this.LoginForm.yzm === this.identifyCode) {
       //   this.adminall = JSON.parse(localStorage.getItem('admin')) 
